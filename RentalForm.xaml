@@ -1,0 +1,263 @@
+﻿<Window x:Class="Rental.RentalForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Договор аренды" 
+        Height="550" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#2D2D2D"
+        FontFamily="Times New Roman">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Кнопки управления -->
+        <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnAdd" Content="➕ Добавить" Width="120" Height="35" Margin="5" 
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        Click="btnAdd_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btnEdit" Content="✏️ Редактировать" Width="120" Height="35" Margin="5" 
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        IsEnabled="False" Click="btnEdit_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btnView" Content="👁️ Просмотр" Width="120" Height="35" Margin="5" 
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        IsEnabled="False" Click="btnView_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btnRefresh" Content="🔄 Обновить" Width="120" Height="35" Margin="5" 
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        Click="btnRefresh_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- DataGrid для отображения списка договоров -->
+        <DataGrid x:Name="dgRentals" Grid.Row="1" AutoGenerateColumns="False" 
+          Background="White" BorderBrush="#555555" BorderThickness="1"
+          AlternatingRowBackground="#F5F5F5" RowHeight="35" 
+          FontSize="12" Foreground="#333333" CanUserResizeColumns="True"
+          SelectionChanged="dgRentals_SelectionChanged"
+          GridLinesVisibility="Horizontal"
+          HorizontalGridLinesBrush="#DDDDDD"
+          RowHeaderWidth="0">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="60">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Клиент" Binding="{Binding ClientName}" Width="180">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeFIO}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Дата окончания" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <!-- Статусные цвета -->
+                                <DataTrigger Binding="{Binding Status}" Value="активна">
+                                    <Setter Property="Foreground" Value="#4CAF50"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Status}" Value="завершена">
+                                    <Setter Property="Foreground" Value="#2196F3"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Status}" Value="отменена">
+                                    <Setter Property="Foreground" Value="#F44336"/>
+                                </DataTrigger>
+                                <!-- Белый текст при выделении (переопределяет цвет) -->
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Общая сумма" Binding="{Binding TotalPrice, StringFormat=N2}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Инструменты" Binding="{Binding ToolsSummary}" Width="200">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- StatusBar -->
+        <StatusBar Grid.Row="2" Height="25" Background="#4D4D4D" Margin="0,10,0,0">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" Text="✅ Готово" FontWeight="Bold" FontSize="12" Foreground="#F0F0F0"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

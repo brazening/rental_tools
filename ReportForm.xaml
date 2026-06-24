@@ -1,0 +1,313 @@
+﻿<Window x:Class="Rental.ReportForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Отчёты" 
+        Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#2D2D2D"
+        FontFamily="Times New Roman">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Background="#4D4D4D" CornerRadius="8" Padding="10" Margin="0,0,0,10">
+            <TextBlock Text="📊 Отчеты системы проката инструментов" 
+                       FontSize="18" FontWeight="Bold" Foreground="#F0F0F0" 
+                       HorizontalAlignment="Center" FontFamily="Times New Roman"/>
+        </Border>
+
+        <!-- Панель фильтров -->
+        <Border Grid.Row="1" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Строка 0: Период -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Период:" 
+                           FontWeight="Bold" FontSize="13" Foreground="#333333" VerticalAlignment="Center" Margin="5"/>
+                <DatePicker Grid.Row="0" Grid.Column="1" x:Name="dpStartDate" 
+                           Height="28" FontSize="12" Margin="5" SelectedDateFormat="Short"
+                           Background="#F8F8F8" BorderBrush="#AAAAAA"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="—" 
+                           FontWeight="Bold" FontSize="13" Foreground="#333333" VerticalAlignment="Center" Margin="5"/>
+
+                <DatePicker Grid.Row="0" Grid.Column="3" x:Name="dpEndDate" 
+                           Height="28" FontSize="12" Margin="5" SelectedDateFormat="Short"
+                           Background="#F8F8F8" BorderBrush="#AAAAAA"/>
+
+                <Button Grid.Row="0" Grid.Column="4" x:Name="btnRefresh" 
+                        Content="🔄 Обновить" Width="100" Height="30" Margin="5"
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="12" Cursor="Hand"
+                        Click="btnRefresh_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <!-- Строка 1: Выбор инструмента -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Инструмент:" 
+           FontWeight="Bold" FontSize="13" Foreground="#333333" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cmbTool" 
+          Height="28" FontSize="12" Margin="5"
+          Background="#F8F8F8" BorderBrush="#AAAAAA"
+          IsEnabled="False">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{Binding InventoryNumber}"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAllTools}" Value="True">
+                                                    <Setter Property="Text" Value="🔧"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text=" - " />
+                                <TextBlock>
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{Binding ModelName}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAllTools}" Value="True">
+                                                    <Setter Property="Text" Value="Все инструменты"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <!-- Кнопки отчетов -->
+                <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="0,10,0,0">
+                    <Button x:Name="btnRatingModels" Content="📊 Рейтинг моделей" 
+                            Width="160" Height="35" Margin="5" Background="#E8E8E8" 
+                            Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                            FontWeight="Bold" FontSize="12" Cursor="Hand"
+                            Click="btnRatingModels_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnEmployeeSales" Content="👔 Продажи сотрудников" 
+                            Width="160" Height="35" Margin="5" Background="#E8E8E8" 
+                            Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                            FontWeight="Bold" FontSize="12" Cursor="Hand"
+                            Click="btnEmployeeSales_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnSuppliesByPeriod" Content="📦 Поставки за период" 
+                            Width="160" Height="35" Margin="5" Background="#E8E8E8" 
+                            Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                            FontWeight="Bold" FontSize="12" Cursor="Hand"
+                            Click="btnSuppliesByPeriod_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnFinesByPeriod" Content="💰 Штрафы за период" 
+                            Width="160" Height="35" Margin="5" Background="#E8E8E8" 
+                            Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                            FontWeight="Bold" FontSize="12" Cursor="Hand"
+                            Click="btnFinesByPeriod_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnToolHistory" Content="🔧 История аренд по инструменту" 
+                            Width="220" Height="35" Margin="5" Background="#E8E8E8" 
+                            Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                            FontWeight="Bold" FontSize="12" Cursor="Hand"
+                            Click="btnToolHistory_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+        </Border>
+
+        <!-- Панель характеристик инструмента -->
+        <Border Grid.Row="2" Background="White" BorderBrush="#555555" BorderThickness="1" CornerRadius="8" Margin="0,0,0,10" Visibility="Collapsed" x:Name="borderToolInfo">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="📋 Характеристика инструмента" 
+                           FontWeight="Bold" FontSize="14" Foreground="#333333" Margin="0,0,0,10"/>
+
+                <ItemsControl Grid.Row="1" x:Name="itemsToolInfo">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="12" Foreground="#333333" Margin="0,2"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+
+        <!-- DataGrid для отображения результатов -->
+        <DataGrid Grid.Row="2" x:Name="dgReport" AutoGenerateColumns="True" 
+                  Background="White" BorderBrush="#555555" BorderThickness="1"
+                  AlternatingRowBackground="#F5F5F5" RowHeight="35" 
+                  FontSize="12" Foreground="#333333" CanUserResizeColumns="True"
+                  IsReadOnly="True">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                </Style>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+
+        <!-- Панель экспорта -->
+        <Border Grid.Row="3" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnExportExcel" Content="📎 Экспорт в Excel" 
+                        Width="150" Height="35" Margin="5" Background="#E8E8E8" 
+                        Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        IsEnabled="False" Click="btnExportExcel_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btnClear" Content="🗑️ Очистить" 
+                        Width="120" Height="35" Margin="5" Background="#E8E8E8" 
+                        Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        Click="btnClear_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btnClose" Content="✖️ Закрыть" 
+                        Width="100" Height="35" Margin="5" Background="#E8E8E8" 
+                        Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        Click="btnClose_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

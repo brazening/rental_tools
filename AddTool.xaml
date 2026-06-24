@@ -1,0 +1,659 @@
+﻿<Window x:Class="Rental.AddTool"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ввод инструментов" 
+        Height="700" Width="1360" 
+        WindowStartupLocation="CenterScreen"
+        Background="#2D2D2D"
+        FontFamily="Times New Roman">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя часть - форма ввода -->
+        <Border Grid.Row="0" 
+                Background="#FFFFFF" 
+                BorderBrush="#555555"
+                BorderThickness="1"
+                CornerRadius="6" 
+                Padding="15" 
+                Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Строка 1: Модель + кнопка, Статус, Состояние -->
+                <TextBlock Grid.Row="0" Grid.Column="0" 
+                           Text="Модель:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" 
+                          x:Name="cmbModel" 
+                          Height="32" 
+                          FontSize="13" 
+                          Background="#F8F8F8"
+                          BorderBrush="#AAAAAA"
+                          Margin="5"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"/>
+
+                <Button Grid.Row="0" Grid.Column="2" 
+                        x:Name="btnModels" 
+                        Content="📋 Модели" 
+                        Width="90" 
+                        Height="32" 
+                        Margin="5"
+                        Background="#E8E8E8"
+                        Foreground="#333333"
+                        BorderBrush="#888888"
+                        BorderThickness="1"
+                        FontWeight="Bold" 
+                        FontSize="12"
+                        Cursor="Hand"
+                        Click="BtnModels_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <TextBlock Grid.Row="0" Grid.Column="3" 
+                           Text="Статус:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="10,5,5,5"/>
+                <ComboBox Grid.Row="0" Grid.Column="4" 
+                          x:Name="cmbStatus" 
+                          Width="180"
+                          Height="32" 
+                          FontSize="13" 
+                          Background="#F8F8F8"
+                          BorderBrush="#AAAAAA"
+                          Margin="5"
+                          SelectionChanged="CmbStatus_SelectionChanged">
+                    <ComboBoxItem Content="доступен" IsSelected="True"/>
+                    <ComboBoxItem Content="в аренде"/>
+                    <ComboBoxItem Content="в ремонте"/>
+                    <ComboBoxItem Content="списан"/>
+                    <ComboBoxItem Content="утерян"/>
+                </ComboBox>
+
+                <TextBlock Grid.Row="0" Grid.Column="5" 
+                           Text="Состояние:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5,5,5,5"/>
+                <ComboBox Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="3"
+                          x:Name="cmbCondition"
+                          Height="32" 
+                          FontSize="13" 
+                          Background="#F8F8F8"
+                          BorderBrush="#AAAAAA"
+                          Margin="112,5,5,5">
+                    <ComboBoxItem Content="отличное"/>
+                    <ComboBoxItem Content="хорошее" IsSelected="True"/>
+                    <ComboBoxItem Content="удовлетворительное"/>
+                    <ComboBoxItem Content="плохое"/>
+                    <ComboBoxItem Content="списан"/>
+                    <ComboBoxItem Content="ремонт"/>
+                </ComboBox>
+
+                <!-- Строка 2: Инв. номер + Генерация, Цена покупки, Дата покупки -->
+                <TextBlock Grid.Row="1" Grid.Column="0" 
+                           Text="Инв. номер:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5"/>
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         x:Name="txtInventoryNumber" 
+                         Height="32" 
+                         FontSize="13" 
+                         Margin="5"
+                         IsReadOnly="True"
+                         Background="#F8F8F8"
+                         BorderBrush="#AAAAAA"
+                         BorderThickness="1"/>
+
+                <Button Grid.Row="1" Grid.Column="2" 
+                        x:Name="btnGenerateInvNum" 
+                        Content="🔄 Генерация" 
+                        Width="90" 
+                        Height="32" 
+                        Margin="5"
+                        Background="#E8E8E8"
+                        Foreground="#333333"
+                        BorderBrush="#888888"
+                        BorderThickness="1"
+                        FontWeight="Bold" 
+                        FontSize="12"
+                        Cursor="Hand"
+                        Click="BtnGenerateInvNum_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <TextBlock Grid.Row="1" Grid.Column="3" 
+                           Text="Цена покупки:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5,0,190,0" Grid.ColumnSpan="2"/>
+                <TextBox Grid.Row="1" Grid.Column="4" 
+                         x:Name="txtPurchasePrice" 
+                         Width="180"
+                         Height="32" 
+                         FontSize="13" 
+                         Background="#F8F8F8"
+                         BorderBrush="#AAAAAA"
+                         BorderThickness="1"
+                         Margin="5"
+                         PreviewTextInput="NumberValidationTextBox"
+                         MaxLength="15"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="5" 
+                           Text="Дата покупки:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5,5,5,5"/>
+                <DatePicker Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3"
+                            x:Name="dpPurchaseDate"
+                            Height="32" 
+                            FontSize="13" 
+                            Background="#F8F8F8"
+                            BorderBrush="#AAAAAA"
+                            Margin="112,5,5,5"
+                            SelectedDateFormat="Short"
+                            SelectedDateChanged="dpPurchaseDate_SelectedDateChanged"/>
+
+                <!-- Строка 3: Склад, Скидка (возраст) -->
+                <TextBlock Grid.Row="2" Grid.Column="0" 
+                           Text="Склад:" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" 
+                          x:Name="cmbStock" 
+                          Height="32" 
+                          FontSize="13" 
+                          Background="#F8F8F8"
+                          BorderBrush="#AAAAAA"
+                          Margin="5"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="3" 
+                           Text="Скидка (возраст):" 
+                           FontWeight="Bold" 
+                           FontSize="14" 
+                           Foreground="#333333"
+                           VerticalAlignment="Center" 
+                           Margin="5,0,190,0" Grid.ColumnSpan="2"/>
+                <TextBlock Grid.Row="2" Grid.Column="4"
+                           x:Name="txtAgeDiscount"
+                           Text="0%"
+                           FontWeight="Bold"
+                           FontSize="16"
+                           Foreground="#FF4444"
+                           VerticalAlignment="Center"
+                           Margin="5,0,121,0"/>
+
+                <!-- Строка 4: Кнопки -->
+                <WrapPanel Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="8" 
+                           Orientation="Horizontal" 
+                           HorizontalAlignment="Left" 
+                           Margin="5,10,5,5">
+                    <Button x:Name="btnMassAdd" 
+                            Content="📦 Массовое добавление" 
+                            Width="160" 
+                            Height="32" 
+                            Margin="5"
+                            Background="#E8E8E8"
+                            Foreground="#333333"
+                            BorderBrush="#888888"
+                            BorderThickness="1"
+                            FontWeight="Bold" 
+                            FontSize="12"
+                            Cursor="Hand"
+                            Click="BtnMassAdd_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnAdd" 
+                            Content="➕ Добавить" 
+                            Width="110" 
+                            Height="32" 
+                            Margin="5"
+                            Background="#E8E8E8"
+                            Foreground="#333333"
+                            BorderBrush="#888888"
+                            BorderThickness="1"
+                            FontWeight="Bold" 
+                            FontSize="13"
+                            Cursor="Hand"
+                            Click="BtnAdd_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnEdit" 
+                            Content="✏️ Редактировать" 
+                            Width="120" 
+                            Height="32" 
+                            Margin="5"
+                            Background="#E8E8E8"
+                            Foreground="#333333"
+                            BorderBrush="#888888"
+                            BorderThickness="1"
+                            FontWeight="Bold" 
+                            FontSize="13"
+                            Cursor="Hand"
+                            Click="BtnEdit_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="btnClear" 
+                            Content="🗑️ Очистить" 
+                            Width="110" 
+                            Height="32" 
+                            Margin="5"
+                            Background="#E8E8E8"
+                            Foreground="#333333"
+                            BorderBrush="#888888"
+                            BorderThickness="1"
+                            FontWeight="Bold" 
+                            FontSize="13"
+                            Cursor="Hand"
+                            Click="BtnClear_Click">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+        </Border>
+
+        <!-- Панель фильтрации -->
+        <Border Grid.Row="1" 
+                Background="#FFFFFF" 
+                BorderBrush="#555555"
+                BorderThickness="1"
+                CornerRadius="6" 
+                Padding="12" 
+                Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Фильтр:" FontWeight="Bold" FontSize="14" Foreground="#333333" VerticalAlignment="Center" Margin="5,5,10,5"/>
+
+                <TextBlock Grid.Column="1" Text="Название:" Foreground="#333333" FontSize="13" VerticalAlignment="Center" Margin="5"/>
+                <TextBox Grid.Column="2" x:Name="txtFilterName" Height="30" FontSize="12" Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1" Margin="3" TextChanged="Filter_Changed"/>
+
+                <TextBlock Grid.Column="3" Text="Статус:" Foreground="#333333" FontSize="13" VerticalAlignment="Center" Margin="10,5,5,5"/>
+                <ComboBox Grid.Column="4" x:Name="cmbFilterStatus" Height="30" FontSize="12" Background="#F8F8F8" BorderBrush="#AAAAAA" Margin="3" SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="Все" IsSelected="True"/>
+                    <ComboBoxItem Content="доступен"/>
+                    <ComboBoxItem Content="в аренде"/>
+                    <ComboBoxItem Content="в ремонте"/>
+                    <ComboBoxItem Content="списан"/>
+                </ComboBox>
+
+                <TextBlock Grid.Column="5" Text="Состояние:" Foreground="#333333" FontSize="13" VerticalAlignment="Center" Margin="10,5,5,5"/>
+                <ComboBox Grid.Column="6" x:Name="cmbFilterCondition" Height="30" FontSize="12" Background="#F8F8F8" BorderBrush="#AAAAAA" Margin="3" SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="Все" IsSelected="True"/>
+                    <ComboBoxItem Content="отличное"/>
+                    <ComboBoxItem Content="хорошее"/>
+                    <ComboBoxItem Content="удовлетворительное"/>
+                    <ComboBoxItem Content="плохое"/>
+                    <ComboBoxItem Content="списан"/>
+                    <ComboBoxItem Content="ремонт"/>
+                </ComboBox>
+
+                <TextBlock Grid.Column="7" Text="Склад:" Foreground="#333333" FontSize="13" VerticalAlignment="Center" Margin="10,5,5,5"/>
+                <ComboBox Grid.Column="8" x:Name="cmbFilterStock" Height="30" FontSize="12" Background="#F8F8F8" BorderBrush="#AAAAAA" Margin="3" SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="Все" IsSelected="True"/>
+                </ComboBox>
+
+                <Button Grid.Column="9" x:Name="btnClearFilter" Content="✖ Очистить" Width="90" Height="30" Margin="10,3,3,3"
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnClearFilter_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="2" 
+          x:Name="dgTools" 
+          AutoGenerateColumns="False"
+          Background="White"
+          BorderBrush="#555555"
+          BorderThickness="1"
+          AlternatingRowBackground="#F5F5F5"
+          RowHeight="35" 
+          FontSize="11"
+          Foreground="#333333"
+          CanUserResizeColumns="True"
+          SelectionChanged="DgTools_SelectionChanged"
+          GridLinesVisibility="Horizontal"
+          HorizontalGridLinesBrush="#DDDDDD"
+          RowHeaderWidth="0">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNumber}" Width="110">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Модель" Binding="{Binding ModelName}" Width="200">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Состояние" Binding="{Binding ConditionStatus}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Цена покупки" Binding="{Binding PurchasePrice, StringFormat={}{0:N2}}" Width="110">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Категория" Binding="{Binding CategoryName}" Width="160">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Склад" Binding="{Binding StockName}" Width="160">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Дата покупки" Binding="{Binding PurchaseDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Возраст (лет)" Binding="{Binding AgeYears}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Скидка" Binding="{Binding Discount}" Width="70">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#333333"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- StatusBar -->
+        <StatusBar Grid.Row="3" 
+                   Height="28" 
+                   Background="#4D4D4D" 
+                   Margin="0,10,0,0">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" 
+                           Text="Готово" 
+                           FontWeight="Bold" 
+                           FontSize="12"
+                           Foreground="#F0F0F0"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

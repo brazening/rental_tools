@@ -1,0 +1,371 @@
+﻿<Window x:Class="Rental.Supplies"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Поставка" 
+        Height="700" Width="1100" 
+        WindowStartupLocation="CenterScreen"
+        Background="#2D2D2D"
+        FontFamily="Times New Roman">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Часть 1: Форма для основных данных поставки -->
+        <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Строка 0 -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер поставки:" FontWeight="Bold" FontSize="12" Foreground="#333333" VerticalAlignment="Center" Margin="3"/>
+                <TextBox x:Name="txtSupplyNumber" Grid.Row="0" Grid.Column="1" Height="28" FontSize="12" Margin="3" IsReadOnly="True" Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Поставщик:" FontWeight="Bold" FontSize="12" Foreground="#333333" VerticalAlignment="Center" Margin="3"/>
+                <ComboBox x:Name="cboSupplier" Grid.Row="0" Grid.Column="3" Height="28" FontSize="12" Margin="3" Background="#F8F8F8" BorderBrush="#AAAAAA" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="Дата поставки:" FontWeight="Bold" FontSize="12" Foreground="#333333" VerticalAlignment="Center" Margin="3"/>
+                <DatePicker x:Name="dpSupplyDate" Grid.Row="0" Grid.Column="5" Height="28" FontSize="12" Background="#F8F8F8" BorderBrush="#AAAAAA" Margin="3"/>
+
+                <!-- Строка 1 -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Статус:" FontWeight="Bold" FontSize="12" Foreground="#333333" VerticalAlignment="Center" Margin="3"/>
+                <TextBox x:Name="txtStatusDisplay" Grid.Row="1" Grid.Column="1" Height="28" FontSize="12" Margin="3" IsReadOnly="True" Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1" Text="черновик"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Ответственный:" FontWeight="Bold" FontSize="12" Foreground="#333333" VerticalAlignment="Center" Margin="3"/>
+                <ComboBox x:Name="cboEmployee" Grid.Row="1" Grid.Column="3" Height="28" FontSize="12" Margin="3" Background="#F8F8F8" BorderBrush="#AAAAAA" DisplayMemberPath="FIO" SelectedValuePath="Id"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="Итоговая сумма:" FontWeight="Bold" FontSize="12" Foreground="#333333" VerticalAlignment="Center" Margin="3"/>
+                <TextBox x:Name="txtTotalAmount" Grid.Row="1" Grid.Column="5" Height="28" FontSize="12" Margin="3" IsReadOnly="True" Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"/>
+
+                <!-- Строка 2: Кнопки статуса и действий -->
+                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,10,3,3">
+                    <Button x:Name="btnSetDraft" Content="📄 Черновик" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnSetDraft_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnSetOrdered" Content="📋 Оформлен" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnSetOrdered_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnSetReceived" Content="✅ Получен" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnSetReceived_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnSetClosed" Content="❌ Отменён" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnSetClosed_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+
+                <!-- Кнопки действий -->
+                <StackPanel Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="3,10,3,3">
+                    <Button x:Name="btnEditSupply" Content="✏️ Редактировать" Width="120" Height="32" 
+        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" 
+        BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" 
+        Click="BtnEditSupply_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnCreate" Content="➕ Создать поставку" Width="130" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnCreate_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnClear" Content="🗑️ Очистить" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnClear_Click" Margin="3">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Часть 2: DataGrid поставок -->
+        <DataGrid x:Name="dgSupplies" Grid.Row="1" AutoGenerateColumns="False" Background="White" 
+                  BorderBrush="#555555" BorderThickness="1" AlternatingRowBackground="#F5F5F5" 
+                  RowHeight="40" FontSize="13" Foreground="#333333" SelectionChanged="DgSupplies_SelectionChanged">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер" Binding="{Binding SupplyNumber}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Поставщик" Binding="{Binding SupplierName}" Width="160">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="Margin" Value="5,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding SupplyDate, StringFormat='dd.MM.yyyy'}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <!-- В DataGrid dgSupplies, между колонками "Дата" и "Статус" добавьте: -->
+                <DataGridTextColumn Header="Дата окончания" Binding="{Binding InvoiceDate, StringFormat='dd.MM.yyyy'}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Ответственный" Binding="{Binding EmployeeFIO}" Width="230">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="Margin" Value="5,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Сумма" Binding="{Binding TotalAmount, StringFormat='N2'}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                            <Setter Property="Foreground" Value="#333333"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Часть 3: Форма для позиций поставки -->
+        <Border Grid.Row="2" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,10,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Позиции поставки" FontWeight="Bold" FontSize="13" Foreground="#333333" Margin="0,0,0,10"/>
+
+                <DataGrid x:Name="dgSupplyItems" Grid.Row="1" AutoGenerateColumns="False" Background="White" 
+                          BorderBrush="#555555" BorderThickness="1" AlternatingRowBackground="#F5F5F5" 
+                          RowHeight="40" FontSize="13" Foreground="#333333" Height="180">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                            <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Модель" Binding="{Binding ToolModelName}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="Margin" Value="5,0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Foreground" Value="#333333"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="70">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Foreground" Value="#333333"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Цена" Binding="{Binding PurchasePrice, StringFormat='N2'}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Foreground" Value="#333333"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat='N2'}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Foreground" Value="#333333"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button x:Name="btnAddItem" Content="➕ Добавить" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnAddItem_Click" Margin="3">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnEditItem" Content="✏️ Редактировать" Width="110" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnEditItem_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="btnDeleteItem" Content="🗑️ Удалить" Width="100" Height="32" Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1" FontWeight="Bold" FontSize="12" Cursor="Hand" Click="BtnDeleteItem_Click" Margin="3" IsEnabled="False">
+                        <Button.Resources>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#D0D0D0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#B8B8B8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Часть 4: StatusBar -->
+        <StatusBar Grid.Row="3" Height="25" Background="#4D4D4D" Margin="0,10,0,0">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" Text="Готово" FontWeight="Bold" FontSize="11" Foreground="#F0F0F0"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,117 @@
+﻿<Window x:Class="Rental.RepairDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Повреждение инструмента" 
+        Height="550" Width="550"
+        WindowStartupLocation="CenterOwner"
+        Background="#2D2D2D"
+        FontFamily="Times New Roman"
+        MinHeight="500" MinWidth="450"
+        ResizeMode="CanResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+
+        <!-- Дата начала ремонта -->
+        <TextBlock Grid.Row="1" Text="Дата начала ремонта:" 
+                   FontWeight="Bold" Foreground="#F0F0F0" 
+                   Margin="0,8,0,5"/>
+        <DatePicker x:Name="dpStartDate" Grid.Row="2" Height="32" 
+                    Margin="0,0,0,10" 
+                    Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"
+                    Foreground="#333333" 
+                    FontSize="13"
+                    HorizontalAlignment="Stretch"/>
+
+        <!-- Выбор сотрудника -->
+        <TextBlock Grid.Row="3" Text="Сотрудник (отправил на ремонт):" 
+                   FontWeight="Bold" Foreground="#F0F0F0" 
+                   Margin="0,8,0,5"/>
+        <ComboBox x:Name="cmbEmployees" Grid.Row="4" Height="32" 
+                  Margin="0,0,0,10" 
+                  DisplayMemberPath="FullName" SelectedValuePath="Id"
+                  Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"
+                  Foreground="#333333" 
+                  FontSize="13"/>
+
+        <!-- Описание повреждения -->
+        <TextBlock Grid.Row="5" Text="Описание повреждения:" 
+                   FontWeight="Bold" Foreground="#F0F0F0" 
+                   Margin="0,8,0,5"/>
+        <TextBox x:Name="txtDescription" Grid.Row="6" Height="100" 
+                 TextWrapping="Wrap" 
+                 AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                 Margin="0,0,0,10" 
+                 FontSize="13" 
+                 Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"
+                 Foreground="#333333"
+                 Padding="5"/>
+
+        <!-- Стоимость ремонта -->
+        <TextBlock Grid.Row="7" Text="Стоимость ремонта (₽):" 
+                   FontWeight="Bold" Foreground="#F0F0F0" 
+                   Margin="0,8,0,5"/>
+        <TextBox x:Name="txtRepairCost" Grid.Row="8" Height="32" 
+                 Margin="0,0,0,15"
+                 FontSize="13" 
+                 Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"
+                 Foreground="#333333"
+                 PreviewTextInput="NumberValidationTextBox"
+                 Padding="5"/>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="9" Orientation="Horizontal" 
+                    HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="✅ Сохранить" Width="100" Height="38" 
+                    Background="#E8E8E8" Foreground="#333333" 
+                    BorderBrush="#888888" BorderThickness="1"
+                    FontWeight="Bold" Click="Ok_Click"
+                    Cursor="Hand" Margin="0,0,10,0">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#D0D0D0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#B8B8B8"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="❌ Отмена" Width="100" Height="38" 
+                    Background="#E8E8E8" Foreground="#333333" 
+                    BorderBrush="#888888" BorderThickness="1"
+                    FontWeight="Bold" Click="Cancel_Click"
+                    Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#D0D0D0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#B8B8B8"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

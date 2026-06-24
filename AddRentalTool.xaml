@@ -1,0 +1,123 @@
+﻿<Window x:Class="Rental.AddRentalTool"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Выбор инструмента" 
+        Height="500" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#2D2D2D"
+        FontFamily="Times New Roman"
+        ResizeMode="NoResize">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Инструмент -->
+        <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Выберите инструмент:" FontWeight="Bold" FontSize="13" Foreground="#333333" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cmbTool" Grid.Row="1" Height="30" FontSize="12" 
+                          Background="#F8F8F8" BorderBrush="#AAAAAA"
+                          DisplayMemberPath="DisplayText" SelectedValuePath="Id"
+                          SelectionChanged="cmbTool_SelectionChanged"/>
+            </Grid>
+        </Border>
+
+        <!-- Цена за день (автоматическая) -->
+        <Border Grid.Row="1" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Цена за день (₽):" FontWeight="Bold" FontSize="13" Foreground="#333333" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtPricePerDay" Grid.Row="1" Height="30" FontSize="12" 
+                         Background="#F8F8F8" BorderBrush="#AAAAAA" BorderThickness="1"
+                         IsEnabled="False"/>
+            </Grid>
+        </Border>
+
+        <!-- Дата возврата (опционально) - видна только при редактировании -->
+        <StackPanel x:Name="spReturnDate" Grid.Row="2" Visibility="Collapsed">
+            <Border Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Дата возврата:" FontWeight="Bold" FontSize="13" Foreground="#333333" Margin="0,0,0,5"/>
+                    <DatePicker x:Name="dpReturnDate" Grid.Row="1" Height="30" FontSize="12" 
+                                Background="#F8F8F8" BorderBrush="#AAAAAA" SelectedDateFormat="Short"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <!-- Повреждение инструмента - видно только при редактировании -->
+        <StackPanel x:Name="spDamage" Grid.Row="3" Visibility="Collapsed">
+            <Border Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Инструмент поврежден:" FontWeight="Bold" FontSize="13" Foreground="#333333" Margin="0,0,0,5"/>
+                    <CheckBox x:Name="chkIsDamaged" Grid.Row="1" Height="30" FontSize="12" Content="Да, инструмент поврежден" Foreground="#333333"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <!-- Кнопки -->
+        <Border Grid.Row="5" Background="#FFFFFF" BorderBrush="#555555" BorderThickness="1" CornerRadius="6" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnAdd" Content="➕ Сохранить" Width="150" Height="35" Margin="5" 
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        Click="btnAdd_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btnCancel" Content="❌ Отмена" Width="120" Height="35" Margin="5" 
+                        Background="#E8E8E8" Foreground="#333333" BorderBrush="#888888" BorderThickness="1"
+                        FontWeight="Bold" FontSize="13" Cursor="Hand"
+                        Click="btnCancel_Click">
+                    <Button.Resources>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D0D0D0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#B8B8B8"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

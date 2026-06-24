@@ -1,0 +1,120 @@
+﻿<Window x:Class="Rental.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rental"
+        mc:Ignorable="d"
+        Title="Справка"
+        Height="800" 
+        Width="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStyle="SingleBorderWindow"
+        Background="#2D2D2D">
+
+    <Window.Resources>
+        <Style x:Key="HelpHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Margin" Value="0,10,0,5"/>
+        </Style>
+
+        <Style x:Key="HelpTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="20,0,0,5"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FFFFFF" Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <Border Background="#4D4D4D" Height="60" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="❓ " FontSize="28" Foreground="#F0F0F0"/>
+                <TextBlock Text="Справка по программе «Аренда инструментов»" 
+                           FontSize="20" FontWeight="Bold" Foreground="#F0F0F0"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Основной контент -->
+        <StackPanel Margin="20,80,20,20">
+            <!-- Описание программы -->
+            <TextBlock Text="📋 О программе" Style="{StaticResource HelpHeaderStyle}"/>
+            <TextBlock Style="{StaticResource HelpTextStyle}" Margin="20,0,0,0">
+                Программа предназначена для автоматизации работы пункта проката инструментов. Позволяет вести учёт клиентов, сотрудников, поставщиков, складов, инструментов, договоров аренды, возвратов, ремонта, списания и перемещения инструментов между складами.
+            </TextBlock>
+
+            <!-- Раздел 1: Ввод -->
+            <TextBlock Text="📝 Раздел «Ввод»" Style="{StaticResource HelpHeaderStyle}"/>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод поставщика</Run> — добавление информации о поставщиках инструментов.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод сотрудника</Run> — добавление сотрудников компании.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод клиента</Run> — регистрация клиентов, берущих инструменты в аренду.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод категории</Run> — создание категорий инструментов (электроинструмент, ручной и т.д.).
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод инструментов/моделей</Run> — добавление моделей инструментов с указанием цены, залога и штрафа.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод городов доставки</Run> — добавление городов, куда возможна доставка.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ввод склада</Run> — добавление складов для хранения инструментов.
+            </TextBlock>
+
+            <!-- Раздел 2: Арендный парк -->
+            <TextBlock Text="🔧 Раздел «Арендный парк»" Style="{StaticResource HelpHeaderStyle}"/>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Поставка</Run> — оформление поступления инструментов от поставщиков.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Договор аренды</Run> — заключение договора на аренду инструмента клиентом.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Возврат</Run> — оформление возврата инструмента, расчёт стоимости и штрафов.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Списание</Run> — удаление из базы сломанных или утерянных инструментов.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Ремонт</Run> — фиксация отправки инструмента в ремонт и его возврата.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Перемещение</Run> — перемещение инструментов между складами.
+            </TextBlock>
+
+            <!-- Раздел 3: Отчёты -->
+            <TextBlock Text="📊 Раздел «Отчёты»" Style="{StaticResource HelpHeaderStyle}"/>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Рейтинг моделей</Run> — анализ популярности моделей инструментов.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Продажи сотрудников</Run> — отчёт по эффективности работы сотрудников.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Поставки за период</Run> — просмотр поступлений инструментов за выбранный период.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">Штрафы за период</Run> — отчёт о полученных штрафах с клиентов.
+            </TextBlock>
+            <TextBlock Style="{StaticResource HelpTextStyle}">
+                • <Run FontWeight="Bold">История аренд по инструменту</Run> — просмотр всех аренд для конкретного экземпляра инструмента.
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>

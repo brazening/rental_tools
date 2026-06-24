@@ -1,0 +1,76 @@
+﻿<Window x:Class="Rental.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rental"
+        mc:Ignorable="d"
+        Title="Арендный парк строительных инструментов с системой складского учёта и анализа оборота документов" 
+        Height="550" Width="800"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Icon="/Rental;component/Resources/Icon.ico">
+
+    <Grid>
+        <Image Source="/glmenu.jpg" Stretch="Fill" />
+        <Border Background="#80000000" />
+
+        <!-- Контейнер для кнопок -->
+        <StackPanel Margin="20" VerticalAlignment="Center">
+
+            <!-- Раздел 1: Ввод -->
+            <Border Background="#CC333333" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="📝 Ввод" FontSize="20" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                    <WrapPanel>
+                        <Button x:Name="btnAddSupplier" Content="Ввод поставщика" Width="140" Height="35" Margin="5" Click="btnAddSupplier_Click"/>
+                        <Button x:Name="btnAddEmployee" Content="Ввод сотрудника" Width="140" Height="35" Margin="5" Click="btnAddEmployee_Click"/>
+                        <Button x:Name="btnAddClient" Content="Ввод клиента" Width="140" Height="35" Margin="5" Click="btnAddClient_Click"/>
+                        <Button x:Name="btnAddCategory" Content="Ввод категории" Width="140" Height="35" Margin="5" Click="btnAddCategory_Click"/>
+                        <Button x:Name="btnAddToolAndModel" Content="Ввод инструментов/моделей" Width="180" Height="35" Margin="5" Click="btnAddToolAndModel_Click"/>
+                        <Button x:Name="btnAddDeliveryCity" Content="Ввод городов доставки" Width="160" Height="35" Margin="5" Click="btnAddDeliveryCity_Click"/>
+                        <Button x:Name="btnAddWarehouse" Content="Ввод склада" Width="140" Height="35" Margin="5" Click="btnAddWarehouse_Click"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Раздел 2: Арендный парк -->
+            <Border Background="#CC333333" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="🔧 Арендный парк" FontSize="20" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                    <WrapPanel>
+                        <Button x:Name="btnSupplies" Content="Поставка" Width="140" Height="35" Margin="5" Click="btnSupplies_Click"/>
+                        <Button x:Name="btnRentalContract" Content="Договор аренды" Width="140" Height="35" Margin="5" Click="btnRentalContract_Click"/>
+                        <Button x:Name="btnReturn" Content="Возврат" Width="140" Height="35" Margin="5" Click="btnReturn_Click"/>
+                        <Button x:Name="btnWriteOff" Content="Списание" Width="140" Height="35" Margin="5" Click="btnWriteOff_Click"/>
+                        <Button x:Name="btnRepair" Content="Ремонт" Width="140" Height="35" Margin="5" Click="btnRepair_Click"/>
+                        <Button x:Name="btnMovement" Content="Перемещение" Width="140" Height="35" Margin="5" Click="btnMovement_Click"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Раздел 3: Отчёты -->
+            <Border Background="#CC333333" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="📊 Отчёты" FontSize="20" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
+                    <WrapPanel>
+                        <Button x:Name="btnRatingModels" Content="Рейтинг моделей" Width="140" Height="35" Margin="5" Click="btnRatingModels_Click"/>
+                        <Button x:Name="btnEmployeeSales" Content="Продажи сотрудников" Width="150" Height="35" Margin="5" Click="btnRatingModels_Click"/>
+                        <Button x:Name="btnSuppliesByPeriod" Content="Поставки за период" Width="150" Height="35" Margin="5" Click="btnRatingModels_Click"/>
+                        <Button x:Name="btnFinesByPeriod" Content="Штрафы за период" Width="140" Height="35" Margin="5" Click="btnRatingModels_Click"/>
+                        <Button x:Name="btnToolHistory" Content="История аренд по инструменту" Width="190" Height="35" Margin="5" Click="btnToolHistory_Click"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Панель с кнопками Закрыть и Справка -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                <Button x:Name="btnHelp" Content="❓ Справка" Width="100" Height="35" Margin="0,0,10,0" 
+                        Foreground="Black" Click="btnHelp_Click"/>
+                <Button x:Name="btnClose" Content="✖ Закрыть" Width="100" Height="35" 
+                        Foreground="Black" Click="btnClose_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
